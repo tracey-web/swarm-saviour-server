@@ -1,6 +1,6 @@
 class SwarmsController < ApplicationController
     before_action :set_swarm, only: %i[ show edit update destroy ]
-    before_action :is_authorized, only: [:create, :update]
+    before_action :is_authorized, only: [:create, :update, :destroy]
   
     # GET
     def index
@@ -24,6 +24,7 @@ class SwarmsController < ApplicationController
     # POST
     def create
       @swarm = Swarm.new(swarm_params)
+      @swarm.reporter_id = @user.id
       if @swarm.save
         render json: {
           status: :created,
